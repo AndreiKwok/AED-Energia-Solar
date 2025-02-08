@@ -10,6 +10,12 @@ plt.style.use("dark_background")
 
 
 def exportar_figura(nome: str) -> None:
+    """
+    Salva a figura atual gerada pelo Matplotlib no diretório "images".
+    
+    Parâmetros:
+    - nome (str): Nome do arquivo da imagem a ser salva.
+    """
     output_dir = os.path.join(os.getcwd(), "images")
     os.makedirs(output_dir, exist_ok=True)
     output_imagem = os.path.join(output_dir, nome)
@@ -19,6 +25,14 @@ def exportar_figura(nome: str) -> None:
 def plotar_distribuicao_horaria(
     data: pd.DataFrame, salvar_imagem: bool = False, **kwargs
 ) -> None:
+    """
+    Plota a distribuição horária da energia solar gerada.
+    
+    Parâmetros:
+    - data (pd.DataFrame): DataFrame contendo os dados de geração de energia com índice datetime.
+    - salvar_imagem (bool, opcional): Se True, salva a imagem gerada. Padrão é False.
+    - **kwargs: Argumentos adicionais para customizar o gráfico.
+    """
     # Agrupando por hora e somando a energia
     energia_por_hora = data.groupby(data.index.hour).sum()
     # Plotando o gráfico
@@ -37,6 +51,15 @@ def plotar_distribuicao_horaria(
 def plotar_top_anos(
     data: pd.DataFrame, n: int = 3, salvar_imagem: bool = False, **kwargs
 ) -> None:
+    """
+    Plota um gráfico mostrando os N anos com maior geração de energia solar.
+    
+    Parâmetros:
+    - data (pd.DataFrame): DataFrame contendo os dados de geração de energia com índice datetime.
+    - n (int, opcional): Número de anos a serem exibidos. Padrão é 3.
+    - salvar_imagem (bool, opcional): Se True, salva a imagem gerada. Padrão é False.
+    - **kwargs: Argumentos adicionais para customizar o gráfico.
+    """
     # Agrupando por ano e somando a energia
     energia_por_ano = data.groupby(data.index.year).sum()
 
@@ -71,6 +94,14 @@ def plotar_top_anos(
 def plotar_distribuicao_mensal(
     data: pd.DataFrame, salvar_imagem: bool = False, **kwargs
 ) -> None:
+    """
+    Plota a distribuição média mensal da energia solar gerada.
+    
+    Parâmetros:
+    - data (pd.DataFrame): DataFrame contendo os dados de geração de energia com índice datetime.
+    - salvar_imagem (bool, opcional): Se True, salva a imagem gerada. Padrão é False.
+    - **kwargs: Argumentos adicionais para customizar o gráfico.
+    """
     # Extraindo o ano e o mês do índice
     df_mensal = data.groupby(data.index.month).mean()
 
@@ -89,6 +120,14 @@ def plotar_distribuicao_mensal(
 
 
 def plotar_decomposicao(data: pd.DataFrame, salvar_imagem: bool = False, **kwargs) -> None:
+    """
+    Plota a decomposição da série temporal da energia solar gerada, mostrando tendência, sazonalidade e resíduos.
+    
+    Parâmetros:
+    - data (pd.DataFrame): DataFrame contendo os dados de geração de energia com índice datetime.
+    - salvar_imagem (bool, opcional): Se True, salva a imagem gerada. Padrão é False.
+    - **kwargs: Argumentos adicionais para customizar o gráfico.
+    """
     # Calcula decomposição da série temporal usando statsmodels
     decomposition = seasonal_decompose(
         x=data, model="additive", extrapolate_trend="freq", **kwargs
